@@ -9,6 +9,7 @@ const Post = require('../models/posts')
 // GET root
 postRouter.get('/', (req, res) => {
     Post.find().then(posts => {
+        console.log(req.cookies);
         res.render('index', {
             posts: posts,
         })

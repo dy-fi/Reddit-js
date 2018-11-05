@@ -1,9 +1,14 @@
+// enviroment variables
+require('dotenv').config();
+
 // Declarations
 const express = require('express');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
+var cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
 // port
 const port = process.env.PORT || 3000;
@@ -18,6 +23,9 @@ app.use(express.static('public'));
 
 // MIDDLEWARE body parser
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// MIDDLEWARE cookie parser
+app.use(cookieParser());
 
 // Method Override
 app.use(methodOverride('_method'));
