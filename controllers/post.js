@@ -11,11 +11,13 @@ const User = require('../models/user')
 postRouter.get('/', (req, res) => {
     var currentUser = req.user;
 
-    Post.find().then(posts => {
-        console.log(req.cookies);
-        res.render('index', {
-            posts: posts,
-            currentUser: currentUser,
+    Post.find()
+        .populate('author')
+        .then(posts => {
+            console.log(req.cookies);
+            res.render('index', {
+                posts,
+                currentUser,
         })
     }).catch(e => {
         console.log(e);
@@ -37,6 +39,7 @@ postRouter.get('/posts/:id', (req, res) => {
 
     Post.findById(req.params.id)
         .populate('comments')
+        .populate('author')
         .populate({path: 'comments', populate: {path: 'author'}})
         .then(post => {
             res.render('posts-show', {
