@@ -37,11 +37,12 @@ postRouter.get('/posts/:id', (req, res) => {
 
     Post.findById(req.params.id)
         .populate('author')
+        .populate('comments')
         .populate({path: 'comments', populate: {path: 'author'}})
         .then(posts => {
             res.render('posts-show', {
                 posts,
-                currentUser
+                currentUser,
             })
         }).catch(e => {
             console.log(e);
