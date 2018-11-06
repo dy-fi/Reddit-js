@@ -8,13 +8,13 @@ const User = require('../models/user')
 
 commentRouter.post("/posts/:postId/comments", function(req, res) {
     const comment = new Comment(req.body);
-    const author = req.user._id;
-    const post = req.params.postId;
+    comment.author = req.user._id;
+    comment.post = req.params.postId;
 
     comment
         .save()
         .then(comment => {
-            return User.findbyId(req.user._id)
+            return User.findById(req.user._id)
         })
         .then(user => {
             user.comments.unshift(comment);
