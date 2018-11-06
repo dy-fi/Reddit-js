@@ -36,12 +36,11 @@ postRouter.get('/posts/:id', (req, res) => {
     var currentUser = req.user;
 
     Post.findById(req.params.id)
-        .populate('author')
         .populate('comments')
         .populate({path: 'comments', populate: {path: 'author'}})
-        .then(posts => {
+        .then(post => {
             res.render('posts-show', {
-                posts,
+                post,
                 currentUser,
             })
         }).catch(e => {
@@ -53,7 +52,7 @@ postRouter.get('/posts/:id', (req, res) => {
 postRouter.post('/posts', (req, res) => {
     if(req.user) {
         const post = new Post(req.body);
-        post.author = req.user._id;
+        post.author = req.user;
 
         post.save()
         .then(user => {
