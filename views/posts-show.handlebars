@@ -1,11 +1,11 @@
 <div class="post">
-    <h1>{{this.name}}</h1></br>
-    <a href="{{this.URL}}">URL</a></br>
+    <h1>{{posts.title}}</h1>
+    <a href="{{posts.URL}}"></a></br>
     <p>{{posts.content}}</p></br>
-    <a href="/n/{{this.subreddit}}">{{this.subreddit}}</small>
+    <a href="/n/{{posts.subreddit}}">{{posts.subreddit}}</small>
 </div>
 <div class="comment form">
-    <form action="/posts/{{post._id}}/comments" method="post">
+    <form action="/posts/{{posts._id}}/comments" method="post">
         <textarea class='form-control' name="content" placeholder="Comment"></textarea>
         <div class="text-right">
             <button type="submit">Save</button>

@@ -6,7 +6,7 @@ const User = require("../models/user");
 
 
 authRouter.get('/sign-up', (req, res) => {
-    res.render('user-new', {});
+    res.render('user-new')
 })
 
 authRouter.get('/login', (req, res) => {

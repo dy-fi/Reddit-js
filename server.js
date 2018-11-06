@@ -15,6 +15,10 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
+// Express handlebars
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
 // mongoose connect
 require('./data/reddit-db')
 
@@ -27,12 +31,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // MIDDLEWARE cookie parser
 app.use(cookieParser());
 
-// Method Override
+// MIDDLEWARE method override
 app.use(methodOverride('_method'));
 
-// Express handlebars
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+// MIDDLEWARE
+var checkAuth = (req, res, next) => {
+  console.log("Checking authentication...");
+  if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
+    req.user = null;
+  } else {
+    var token = req.cookies.nToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+  }
+
+  next();
+};
+
+app.use(checkAuth);
 
 // routes
 const handlePostRoutes = require('./controllers/post');

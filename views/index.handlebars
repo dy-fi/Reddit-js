@@ -3,9 +3,10 @@
         <div class="col-sm-4">
             <h3><a href="/posts/{{this._id}}">{{this.title}}</a></h3>
             <a href="{{this.URL}}">Link</a></br>
-            <p>{{this.content}}</p>
+            <p>{{this.content}}</p></br>
+            <p>{{this.subreddit}}</p>
             <small>Created: {{this.createdAt}}</small></br>
             <small>Updated Last: {{this.updatedAt}}</small>
-        </div>
+        </div><hr>
     {{/each}}
 </div>
