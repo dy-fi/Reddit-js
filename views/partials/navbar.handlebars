@@ -5,6 +5,7 @@
     {{/if}}
     <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
+            <small>Hi, {{currentUser.username}}</small>
             <li><a href="/logout">Logout</a></li>
         {{else}}
             <li><a href="/login">Login</a></li>

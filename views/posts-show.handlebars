@@ -1,8 +1,9 @@
 <div class="post">
     <h1>{{posts.title}}</h1>
+    <small>/u/{{posts.author}}</small>
     <a href="{{posts.URL}}"></a></br>
     <p>{{posts.content}}</p></br>
-    <a href="/n/{{posts.subreddit}}">{{posts.subreddit}}</small>
+    <a href="/n/{{posts.subreddit}}"><small>{{posts.subreddit}}</small></a>
 </div>
 <div class="comment form">
     <form action="/posts/{{posts._id}}/comments" method="post">
@@ -14,6 +15,6 @@
 </div>
 <div class="comments">
     {{#each post.comments}}
-        {{this.content}}
+        {{> comment}}
     {{/each}}
 </div>

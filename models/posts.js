@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 mongoose.set('debug', true);
 
 const PostSchema = new Schema({
+    author : { type: Schema.Types.ObjectId, ref: "User", required: true },
     createdAt: {type: Date },
     updatedAt: {type: Date},
     title: { type: String, required: true },

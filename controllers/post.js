@@ -3,6 +3,7 @@ const postRouter = express.Router();
 
 // models
 const Post = require('../models/posts')
+const User = require('../models/user')
 
 // routes
 
@@ -25,45 +26,60 @@ postRouter.get('/', (req, res) => {
 postRouter.get('/posts/new', (req, res) => {
     var currentUser = req.user;
 
-    res.render('posts-new', {});
+    res.render('posts-new', {
+        currentUser,
+    });
 })
 
 // Get one
 postRouter.get('/posts/:id', (req, res) => {
     var currentUser = req.user;
 
-    Post.findById(req.params.id).populate('comments').then(posts => {
-        res.render('posts-show', {
-            posts: posts,
+    Post.findById(req.params.id)
+        .populate('author')
+        .populate({path: 'comments', populate: {path: 'author'}})
+        .then(posts => {
+            res.render('posts-show', {
+                posts,
+                currentUser
+            })
+        }).catch(e => {
+            console.log(e);
         })
-    }).catch(e => {
-        console.log(e);
-    })
 })
 
 // POST new
 postRouter.post('/posts', (req, res) => {
-    var currentUser = req.user;
+    if(req.user) {
+        const post = new Post(req.body);
+        post.author = req.user._id;
 
-    Post.create(req.body).then(post => {
-        console.log(post);
-        res.redirect(`posts/${post._id}`, {
-            currentUser: currentUser,
-        });
-    }).catch(e => {
-        console.log(e);
-    })
+        post.save()
+        .then(user => {
+            return User.findById(req.user._id);
+        })
+        .then(user => {
+            user.posts.unshift(post);
+            user.save();
+            res.redirect('/posts/' + post._id);
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+    } else {
+        res.status(401);
+    };
 })
 
 // SUBREDDIT
-postRouter.post("/n/:subreddit", function(req, res) {
+postRouter.get("/n/:subreddit", function(req, res) {
     var currentUser = req.user;
 
     Post.find({ subreddit: req.params.subreddit })
         .then(posts => {
             res.render("posts-index", {
-                 posts: posts,
-                 currentUser: currentUser,
+                 posts,
+                 currentUser,
              });
         }).catch(err => {
             console.log(err);
