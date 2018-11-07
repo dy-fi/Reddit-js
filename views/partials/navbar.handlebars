@@ -6,10 +6,11 @@
     <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
             <small>Hi, {{currentUser.username}}</small>
+            <li><a href="/u/:{{currentUser.username}}">Profile</a></li>
             <li><a href="/logout">Logout</a></li>
         {{else}}
             <li><a href="/login">Login</a></li>
             <li><a href="/sign-up">Sign Up</a></li>
         {{/if}}
-</ul>
+    </ul>
 </nav>

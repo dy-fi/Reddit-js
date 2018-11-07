@@ -4,7 +4,6 @@ require('dotenv').config();
 // Declarations
 const express = require('express');
 const exphbs = require('express-handlebars');
-const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 var cookieParser = require('cookie-parser');
@@ -31,9 +30,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // MIDDLEWARE cookie parser
 app.use(cookieParser());
 
-// MIDDLEWARE method override
-app.use(methodOverride('_method'));
-
 // MIDDLEWARE
 var checkAuth = (req, res, next) => {
     console.log("Checking authentication...");
@@ -55,9 +51,11 @@ app.use(checkAuth);
 const handlePostRoutes = require('./controllers/post');
 const handleCommentRoutes = require('./controllers/comment')
 const handleAuthRoutes = require('./controllers/auth')
+const handleUserRoutes = require('./controllers/user')
 
 app.use(handlePostRoutes)
 app.use(handleCommentRoutes)
 app.use(handleAuthRoutes)
+app.use(handleUserRoutes)
 
 app.listen(port, console.log('App listening on port ' + port))

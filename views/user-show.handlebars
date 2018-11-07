@@ -1,2 +1,16 @@
-<h2>{{this.username}}</h2>
-<ul class="list-group"
+<h2>{{user.username}}</h2>
+<small>Joined: {{user.createdAt}}</small></hr>
+<div class="row">
+    {{#each user.posts}}
+        <div class="card border-dark mb-3">
+            {{#each user.posts.subreddit}}
+                <div class="card-header">{{user.posts.subreddit}}</div>
+            {{/each}}
+            <div class="card-body text-dark">
+                <h5 class="card-title"><a href="/posts/{{user.posts._id}}" class="card-link">{{user.posts.title}}</a></h5>
+                <a href="{{user.posts.URL}}" class="card-link">URL</a>
+                <p class="card-text">{{user.posts.content}}</p>
+            </div>
+        </div>
+    {{/each}}
+</div>

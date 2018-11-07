@@ -1,8 +1,15 @@
 <div class="row card">
     {{#each posts}}
+        <form class="vote-up" data-id="{{post._id}}">
+            <button type="submit">Vote Up</button>
+        </form>
+        |
+        <form class="vote-down" data-id="{{post._id}}">
+            <button type="submit">Vote Down</button>
+        </form>
         <div class="col-sm-4">
             <h3><a href="/posts/{{this._id}}">{{this.title}}</a></h3>
-            <small><a href="/users/{{this.author.username}}">/u/{{this.author.username}}</a></small></br>
+            <small><a href="/u/:{{this.author.username}}">/u/{{this.author.username}}</a></small></br>
             <a href="{{this.URL}}">Link</a></br>
             <p>{{this.content}}</p></br>
             <p>{{this.subreddit}}</p>

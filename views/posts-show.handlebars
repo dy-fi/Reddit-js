@@ -1,10 +1,17 @@
 <div class="post">
     <h1>{{post.title}}</h1>
-    <small><a href="/users/{{post.author.username}}">/u/{{post.author.username}}</a></small><hr>
+    <small><a href="/u/:{{post.author.username}}">/u/{{post.author.username}}</a></small><hr>
     <a href="{{post.URL}}">URL</a></br>
     <p>{{post.content}}</p></br>
     <small>subs: <a href="/n/{{posts.subreddit}}">{{post.subreddit}}</a></small>
 </div>
+<form class="vote-up" data-id="{{post._id}}">
+    <button type="submit">Vote Up</button>
+</form>
+|
+<form class="vote-down" data-id="{{post._id}}">
+    <button type="submit">Vote Down</button>
+</form>
 <div class="comment form">
     <form action="/posts/{{post._id}}/comments" method="post">
         <textarea class='form-control' name="content" placeholder="Comment"></textarea>
@@ -13,8 +20,11 @@
         </div>
     </form>
 </div>
-<div class="comments">
-    {{#each post.comments}}
-        <p>{{this.content}}</p>
-    {{/each}}
+<div class="row">
+    <div class="col-xs-12 comment-indent">
+      <p>{{this.content}}</p>
+      {{#each this.comments}}
+        {{> comment}}
+      {{/each }}
+    </div>
 </div>

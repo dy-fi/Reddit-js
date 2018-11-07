@@ -7,6 +7,28 @@ const User = require('../models/user')
 
 // routes
 
+// UPVOTES/ DOWNVOTES
+
+postRouter.put("/posts/:id/vote-up", function(req, res) {
+  Post.findById(req.params.id).exec(function(err, post) {
+    post.upVotes.push(req.user._id);
+    post.voteScore = post.voteTotal + 1;
+    post.save();
+
+    res.status(200);
+  });
+});
+
+postRouter.put("/posts/:id/vote-down", function(req, res) {
+  Post.findById(req.params.id).exec(function(err, post) {
+    post.downVotes.push(req.user._id);
+    post.voteScore = post.voteTotal - 1;
+    post.save();
+
+    res.status(200);
+  });
+});
+
 // GET root
 postRouter.get('/', (req, res) => {
     var currentUser = req.user;
@@ -38,7 +60,6 @@ postRouter.get('/posts/:id', (req, res) => {
     var currentUser = req.user;
 
     Post.findById(req.params.id)
-        .populate('comments')
         .populate('author')
         .populate({path: 'comments', populate: {path: 'author'}})
         .then(post => {
