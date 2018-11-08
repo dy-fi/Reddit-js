@@ -12,7 +12,7 @@ const PostSchema = new Schema({
     URL: { type: String, required: true },
     content: {type: String, required: true },
     subreddit: { type: String, required: true },
-    comments: [Comment.schema],
+    comments: [ { type: Schema.Types.ObjectId, ref: "Comment"}],
 });
 
 PostSchema.pre("save", function(next) {

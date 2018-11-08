@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 var cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const methodOverride = require('method-override');
 
 // port
 const port = process.env.PORT || 3000;
@@ -24,13 +25,16 @@ require('./data/reddit-db')
 // static scripts and styles in public
 app.use(express.static('public'));
 
+// MIDDLEWARE method override
+app.use(methodOverride('_method'));
+
 // MIDDLEWARE body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MIDDLEWARE cookie parser
 app.use(cookieParser());
 
-// MIDDLEWARE
+// MIDDLEWARE authentication
 var checkAuth = (req, res, next) => {
     console.log("Checking authentication...");
     if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {

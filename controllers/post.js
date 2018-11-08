@@ -95,8 +95,17 @@ postRouter.post('/posts', (req, res) => {
     };
 })
 
+// DELETE one
+postRouter.delete("/posts/:id", (req, res) => {
+    Post.findByIdAndRemove(req.params.id).then(post => {
+        res.redirect('/');
+    }).catch(e => {
+        console.log(e);
+    })
+})
+
 // SUBREDDIT
-postRouter.get("/n/:subreddit", function(req, res) {
+postRouter.get('/n/:subreddit', function(req, res) {
     var currentUser = req.user;
 
     Post.find({ subreddit: req.params.subreddit })

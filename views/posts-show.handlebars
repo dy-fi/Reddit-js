@@ -1,19 +1,23 @@
+<form class="vote-up" data-id="{{post._id}}">
+    <button type="submit">/\</button>
+</form>
+<form class="vote-down" data-id="{{post._id}}">
+    <button type="submit">\/</button>
+</form>
 <div class="post">
     <h1>{{post.title}}</h1>
     <small><a href="/u/:{{post.author.username}}">/u/{{post.author.username}}</a></small><hr>
     <a href="{{post.URL}}">URL</a></br>
     <p>{{post.content}}</p></br>
     <small>subs: <a href="/n/{{posts.subreddit}}">{{post.subreddit}}</a></small>
+    {{#if post.Author}}
+        <form method="POST" action="/posts/{{post._id}}?_method=DELETE">
+            <button class="btn btn-primary" type="submit">Delete</button>
+        </form>
+    {{/if}}
 </div>
-<form class="vote-up" data-id="{{post._id}}">
-    <button type="submit">Vote Up</button>
-</form>
-|
-<form class="vote-down" data-id="{{post._id}}">
-    <button type="submit">Vote Down</button>
-</form>
 <div class="comment form">
-    <form action="/posts/{{post._id}}/comments" method="post">
+    <form action="/posts/{{post._id}}/comments" method="POST">
         <textarea class='form-control' name="content" placeholder="Comment"></textarea>
         <div class="text-right">
             <button type="submit">Save</button>
@@ -25,6 +29,11 @@
       <p>{{this.content}}</p>
       {{#each this.comments}}
         {{> comment}}
+        {{#if comment.author}}
+            <form method="POST" action="/posts/{{post._id}}/comments/{{comment._id}}?_method=DELETE">
+                <button class="btn btn-primary" type="submit">Delete</button>
+            </form>
+        {{/if}}
       {{/each }}
     </div>
 </div>
