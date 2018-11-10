@@ -13,6 +13,7 @@ const methodOverride = require('method-override');
 // port
 const port = process.env.PORT || 3000;
 
+// app
 const app = express();
 
 // Express handlebars
