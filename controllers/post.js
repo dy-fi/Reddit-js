@@ -61,7 +61,7 @@ postRouter.get('/posts/:id', (req, res) => {
 
     Post.findById(req.params.id)
         .populate('author')
-        .populate({path: 'comments', populate: {path: 'author'}})
+        .populate({path: 'comments', populate: { path: 'author' }})
         .then(post => {
             res.render('posts-show', {
                 post,
